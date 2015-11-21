@@ -1,0 +1,84 @@
+ <div layout="row" layout-align="center center" class="full_height" ng-controller="LoginCtrl">
+ 
+	<form name="userForm" ng-submit="login()" novalidate>
+    <div layout="column" layout-align="center center">
+     
+      <div class="logo">
+        
+      </div>
+      
+      <div class="credentials_container">
+        <md-input-container>
+		  <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+          <label>Email</label>
+		  <input type="text" name="name" class="form-control" ng-model="credentials_username" required>
+            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">Retailer ID is required.</p>
+		  </div>
+        </md-input-container>
+        <md-input-container>
+		  <div class="form-group" ng-class="{ 'has-error' : userForm.Password.$invalid && !userForm.Password.$pristine }">
+          <label>Password</label>
+          <input type="password" name="Password" class="form-control" ng-model="credentials_password"required/>
+			<p ng-show="userForm.Password.$invalid && !userForm.Password.$pristine" class="help-block">Password is required.</p>
+		  </div>
+        </md-input-container>
+      </div>
+      
+      <div class="button_container full_width">
+        <md-button class="md-raised md-primary full_width no_margin" ng-disabled="userForm.$invalid">Login</md-button>
+		
+      </div>
+	  <br><br>
+
+	  </div>
+  </form>
+
+
+<md-input-container layout-padding>
+</md-input-container>
+<md-input-container layout-padding>
+</md-input-container>
+
+	<span class="vl">
+        
+	</span>
+
+<md-input-container layout-padding>
+</md-input-container>
+
+
+
+
+ <md-input-container layout-padding>
+	<form name="loginForm" >
+    <div layout="column" layout-align="center center">
+     
+      <div class="credentials_container">
+        
+      
+				<div class="card-content">
+				Create Account Here<br>
+					<div class="miniText">
+						<center>to become a first smart offline seller in Bangalore<br>and get an eye from customer</center> 
+					</div>
+				</div>
+				
+			<br>
+			<div class="bullet_content">
+			<ul style="list-style-type:disc">
+				<li>350+ &nbsp;&nbsp; retailers already registered</li>
+				<li>170+ &nbsp;&nbsp; Brands of india got tied-up with us</li>
+				<li>100+ &nbsp;&nbsp; Deals & Offers Up-coming</li>
+			</ul>
+			</div>
+			<br>
+			<div class="button_container full_width">
+				<md-button class="md-raised md-primary full_width no_margin" ng-click="createAccount()"><b>Register for free & Avail benefits</b></md-button>
+			</div>
+			
+		</div>
+   </div>
+  </form>
+</md-input-container>
+</div>
+

@@ -1,0 +1,110 @@
+<div ng-controller="testDriverCtrl" class="accommodation_holder">
+
+    
+  <md-tabs md-dynamic-height md-border-bottom md-selected="currentSectionIndex">
+    <md-tab label="one">
+        <div class='md-padding' layout="row" layout-wrap ng-show="paginationBar">
+        
+        <md-button class="md-raised md-primary" ng-click="showNextForm($event)" style="height:10%">Add New Product</md-button>
+        
+        
+           <md-button class="md-raised md-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" style="height: 5%;">Previous</md-button><span id="pageNo" style="margin-top: 1%;font-weight: 800;">{{currentPage+1}}/{{numberOfPages()}}</span> <md-button class="md-raised md-primary" ng-disabled="currentPage >= users.length/pageSize - 1" ng-click="currentPage=currentPage+1" style="height: 5%;">Next </md-button>
+       
+                <label class="field_label" style="color: #00A1E4;margin-top: 1%;font-weight: 700;">&nbsp;&nbsp; Search Here:</label>
+                    <md-input-container>
+                        <input type="text" ng-model="searchs" class="form-control" style="padding: 6px;border: solid 1px #00A1E4;
+    transition: box-shadow 0.3s, border 0.3s;width: 100%;">
+                    </md-input-container>
+          
+            
+        </div>
+       
+        
+        <div class='md-padding' layout="row" layout-wrap>
+            
+             <loading></loading>
+            
+            <md-card class="ProfileId" style="background-color: #eeeeee;border-radius: 10px;height: 200px;" ng-repeat="user in users | filter:searchs | startFrom:currentPage*pageSize | limitTo:pageSize" id="{{$index}}">
+                
+                    <md-card-content>
+                        <h2 style="text-align: center;">{{user.name}}</h2>
+                        <p>User ID: {{user.user_id}}</p>
+                        <p>Tel: {{user.mobile}}</p>
+                        <div class="md-actions" layout="row" layout-align="end center">
+                        <md-button ng-click="showEdit($event,user)">Edit</md-button>
+                        <md-button ng-click="viewDriver($event,user)">View</md-button>
+                        <md-button ng-click="deleteDriver($event,user,$index)">Delete</md-button> 
+                        </div><div></div>
+                    </md-card-content>
+                    
+                </md-card>
+           
+            </div>
+        
+            
+        
+    </md-tab>
+    <md-tab label="two">
+        <md-button class="md-raised md-primary" ng-click="showAllRide($event)" flex-md="100">Show All Product</md-button>
+        <form name="userForm" ng-submit="addCategory($event)">
+			
+        <label class="field_label">Company</label>
+        <md-input-container>
+            <md-input-container>
+                    <md-select placeholder="SelectCompany" ng-model="categoryList.company" ng-change="getCategory()" ng-required="true">
+                    <md-option value="6">Lifestyle</md-option>
+                </md-select>
+                </md-input-container>
+        </md-input-container>
+        
+        
+        <label class="field_label">Select Category</label>
+        <md-input-container>
+        <select name="" id="" ng-model="categoryList.category" ng-change="displaysubcategory()" ng-options="s4.category_id as s4.category_name for s4 in category" required>
+                  <option value="">Select Category</option>
+                </select>
+        </md-input-container>
+            
+            
+        <label class="field_label">Select Sub Category</label>
+        <md-input-container>
+        <select name="" id="" ng-model="categoryList.subcategory" ng-change="getBrands()" ng-options="s4.subcatid as s4.subcatname for s4 in subCategory" required>
+                  <option value="">Select Sub Category</option>
+                </select>
+        </md-input-container>
+          
+<!--
+        <label class="field_label">Select Sub Category</label>
+        <md-input-container>
+        <select name="" id="" ng-model="categoryList.subcategory" ng-change="getBrand()" ng-options="s4.brand_id as s4.brand_name for s4 in subCategory" required>
+                  <option value="">Select Sub Category</option>
+                </select>
+        </md-input-container>
+-->
+         
+            
+            <label class="field_label">Select Brand</label> 
+            <md-input-container>
+        <select name="" id="" ng-model="categoryList.brand" ng-change="getproduct()" ng-options="s4.brand_id as s4.brand_name for s4 in brand" required>
+                  <option value="">Select Brand</option>
+                </select>
+        </md-input-container> 
+            
+        
+            <label class="field_label">Select Product</label> 
+            <md-input-container>
+        <select name="" id="" ng-model="categoryList.product" ng-options="s4.product_id as s4.product_name for s4 in product" required>
+                  <option value="">Select Product</option>
+                </select>
+        </md-input-container>
+		
+        <md-button class="md-raised md-primary full_width no_margin">SUBMIT</md-button>
+      
+          
+          
+      </form> 
+    </md-tab>
+    
+  </md-tabs>
+</div>
+
