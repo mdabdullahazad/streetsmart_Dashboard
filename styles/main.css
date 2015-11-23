@@ -13,6 +13,13 @@ body {
   background-color: rgb(63,81,181);
 }
 
+#map { 
+    height: 150px;
+	width: 400px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
 
 
 ::-webkit-scrollbar {

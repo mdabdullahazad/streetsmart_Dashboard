@@ -48,7 +48,7 @@ angular.module('tourismApp')
       'region': '',
       'file_size_limit': 10000000,
       'server_encryption': 'AES256',
-      'bucket': 'streetsmartb2/prabhu',
+      'bucket': 'streetsmartb2/retailer_logo',
       'access_key': 'AKIAJDXDJWCIOP4DIBRA',
       'secret_key': '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',
       'randomString': 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567898'

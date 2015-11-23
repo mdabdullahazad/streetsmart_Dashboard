@@ -1,0 +1,226 @@
+<div ng-controller="registerRetailerCtrl">
+<div class="CA">
+    <form name="registerForm" ng-submit="registerRetailer()">
+  <md-tabs md-dynamic-height md-border-bottom md-selected="currentSectionIndex">
+    <md-tab label="Create Profile">
+      
+		<div layout="row" layout-wrap layout-sm="column">
+		
+		  <div flex="32" layout-padding layout-margin class="poi_columns">
+            <br><br>
+			<label class="field_label">Retailer / Company</label>
+			<md-input-container>
+				<select name="Country" id="" ng-model="register.type" required>
+					<option value="">Select Type</option>
+                     <option value="1">Retailer</option>
+                     <option value="2">Company</option>
+
+				</select>
+			</md-input-container>
+           
+			<label class="field_label">Retailer Name</label>
+			<md-input-container>
+				<label>Enter Retailer Name</label>
+				<input type="text" ng-model="register.retailerName" required/>
+			</md-input-container>
+		
+			<label class="field_label">Email</label>
+			<md-input-container>
+				<label>Enter Email</label>
+				<input type="email" ng-model="register.email" required/>
+			</md-input-container>
+		
+			<label class="field_label">Password</label>
+			<md-input-container>
+				<label>Enter Password</label>
+				<input type="password" ng-model="register.password" required/>
+			</md-input-container>
+         </div>
+		   
+<!--
+		   <span class="vl">
+        
+	</span>
+		   
+-->
+		<div flex="32" layout-padding layout-margin class="poi_columns">
+		<br><br>
+			<label class="field_label">SPOC Name</label>
+			<md-input-container>
+				<label>Enter SPOC Name</label>
+				<input type="text" ng-model="register.spocName" required/>
+			</md-input-container>
+		
+			<label class="field_label">Mobile</label>
+			<md-input-container>
+				<label>Enter Mobile Number</label>
+				<input type="number" max="10" ng-model="register.mobile" required/>
+			</md-input-container>
+		
+			<label class="field_label">Landline Number</label>
+			<md-input-container>
+				<label>Enter MLandline Number</label>
+				<input type="number" ng-model="register.landline" required/>
+			</md-input-container>
+            <br><br>
+			<md-button class="md-raised md-primary full_width no_margin" ng-click="showNextForm($event)">Next</md-button>
+         </div>
+		 
+		 </div>
+  
+    </md-tab>
+    <md-tab label="Enter Detail's">
+		      
+		<div layout="row" layout-wrap layout-sm="column">
+		
+		  <div flex="32" layout-padding layout-margin class="poi_columns">
+           <br><br>
+			 <label class="field_label">Website</label>
+		<md-input-container>
+          <label>Enter Website URL</label>
+          <input type="url" ng-model="register.website" required/>
+        </md-input-container>
+          
+		  <label class="field_label">Package</label>
+         <md-input-container>
+          <select name="" id="" ng-model="register.package" required>
+           <option value="">Select Package</option>
+           <option value="1">Free</option>
+           <option value="2">Basic</option>
+           <option value="3">Pro</option>
+
+          </select>
+        </md-input-container>
+		
+		<label class="field_label">Select Type</label>
+		 <md-input-container>
+          <select name="" id="" ng-model="register.storeType" required>
+           <option value="">Select Type</option>
+           <option value="store">store</option>
+          </select>
+        </md-input-container>
+		
+		<md-button class="md-raised md-primary full_width no_margin" ng-click="showFirstForm(false,$event)">Previous</md-button>
+         </div>
+		   
+<!--
+		   <span class="vl">
+		   </span>
+		   
+-->
+		<div flex="32" layout-padding layout-margin class="poi_columns">
+		<br><br>
+		<label class="field_label">Select Country</label>
+		 <md-input-container>
+          <select name="" id="" ng-model="register.country" ng-options="c4.country_id as c4.country_name for c4 in countryList" ng-change="getCity()" required>
+           <option value="">Select Country</option>
+          </select>
+        </md-input-container>
+		
+		 <label class="field_label">Select City</label>
+		 <md-input-container>
+          <select name="" id="" ng-model="register.city" ng-change="getArea()" ng-options="c4.city_id as c4.city_name for c4 in cityList" required>
+           <option value="">Select City</option>
+          </select>
+        </md-input-container>
+		
+		<label class="field_label">Select Area</label>
+		 <md-input-container>
+          <select name="" id="" ng-model="register.area" ng-change="getMall()" ng-options="c4.area_id as c4.area_name for c4 in areaList" required>
+           <option value="">Select Area</option>
+          </select>
+        </md-input-container>
+		
+              <md-button class="md-raised md-primary full_width no_margin" ng-click="showNextForm($event)">Next</md-button>
+              
+			
+        </div>
+		 
+		 </div>
+  
+    </md-tab>
+	
+	 <md-tab label="Update Profile">
+		<div layout="row" layout-wrap layout-sm="column">
+		  <div flex="32" layout-padding layout-margin class="poi_columns">
+           <br><br>
+				<label class="field_label">Select Mall</label>
+				<md-input-container>
+				<select name="" id="" ng-model="register.mall" ng-options="c4.mall_id as c4.mall_name for c4 in mallList" ng-disabled="noMall">
+				<option value="">Select Mall</option>
+				</select>
+				</md-input-container>
+          
+<!--
+				<div layout="row">
+					<md-input-container layout-padding>
+					<label>Latitude</label>
+					<input type="text" maxlength="17" name="latitude" ng-model="register.latitude" style="width:80%;" required/>
+					</md-input-container>
+					
+					<md-input-container layout-padding>
+					<label>Longitude</label>
+					<input type="text" maxlength="17" name="longitude" ng-model="register.longitude" style="width:80%;" required/>
+					</md-input-container>
+					<div class="full_width display_inline_blk map_pin" ng-click="pickLatLng($event)"></div>
+              </div>
+-->
+              
+                    <md-input-container>
+                    <google-places location=location ng-model="sourceAddr"></google-places> 
+                    </md-input-container>
+              
+                <md-button class="md-raised md-primary full_width no_margin" ng-click="search();">Search</md-button>
+                   
+                   <div id="map" ng-init="loadMap()"></div>
+		
+<!--
+		<div>&nbsp;</div>
+        <label class="field_label">Enter Address Detail</label>
+        <label class="gray_text small_font" layout-margin></label>
+        <textarea name="Description" id="" cols="20" rows="5" class="description_box" ng-model="register.Address" required></textarea>
+-->
+		<br><br><br>
+		<md-button class="md-raised md-primary full_width no_margin" ng-click="showFirstForm(false,$event)">Previous</md-button>
+
+		 </div>
+		   
+<!--
+		   <span class="vl">
+		   </span>
+-->
+		   
+		<div flex="32" layout-padding layout-margin class="poi_columns">
+		<br><br>
+        
+            <div>&nbsp;</div>
+        <label class="field_label">Enter Address Detail</label>
+        <label class="gray_text small_font" layout-margin></label>
+        <textarea name="Description" id="" cols="20" rows="5" class="description_box" ng-model="register.Address" required></textarea>
+		<div>&nbsp;</div>
+        
+        <label class="field_label">Upload Retailer Logo</label>
+        <label class="gray_text small_font" layout-margin>Dimension: 250 x 250px</label>
+
+        <div class="thumbnail_container" layout-margin>
+          <md-button flex="40" class="md-raised browse_slider_btn">
+            <input onchange="angular.element(this).scope().setThumbnail(this)" ng-model="thumbnail.fileName" type="file" value="Browse Image" accept="image/*">Browse Image</input>
+          </md-button>
+          <div class="display_inline_blk thumbnail" style="background:url({{thumbnail.srcUrl}}) no-repeat center">
+            <div class="hide remove_thumb_btn" ng-click="removeThumbnail()"></div>
+          </div>
+        </div>
+		      
+              <md-button class="md-raised md-primary full_width no_margin">Register</md-button><br><br>
+			  <md-button class="md-raised md-primary full_width no_margin" ng-click="login()">Back to Login</md-button><br><br>
+              
+         
+       </div>
+    </md-tab>
+	
+	
+  </md-tabs>
+    </form>
+    </div>
+  
+</div> 

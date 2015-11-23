@@ -1,5 +1,14 @@
 <div>
   <md-content>
+      
+      
+        <div layout="row" layout-wrap="" layout-sm="column">
+            <div style="margin-left: 45%;margin-top: 8px;"><img ng-src="{{retailerlogo}}" alt="Logo" style="margin-top: -35px;"/></div>
+<button class="md-raised md-primary md-button md-default-theme" ng-transclude="" ng-click="logout()" tabindex="0" style=" margin-left: 30%;margin-top: 30px;height: 30px;"><span class="ng-scope">LogOut</span></button>
+        </div>
+      
+      
+      
     <md-tabs md-dynamic-height md-border-bottom md-selected="0">
       <md-tab ng-disabled="!header.isactive" label="{{header.label}}" ng-repeat="header in tabs.headers">
         <md-content class="md-padding">

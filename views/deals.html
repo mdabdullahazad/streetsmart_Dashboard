@@ -46,7 +46,7 @@
     </md-tab>
     <md-tab label="two">
         <md-button class="md-raised md-primary" ng-click="showAllRide($event)" flex-md="100">Show All deals</md-button>
-        <form name="userForm" ng-submit="addCategory($event)">
+        <form name="userForm" ng-submit="addDeals($event)">
              <div layout="row" layout-wrap layout-sm="column">
                   <div flex="32" layout-padding layout-margin class="poi_columns">
             <label class="field_label">Campaign Name</label>
@@ -130,6 +130,12 @@
           <label>Price Information</label>
           <input type="number" maxlength="20" name="hours" ng-model="deals.price" ng-required="true"/>
         </md-input-container>
+                      
+                      <md-input-container>
+          <label>Percentage (%)</label>
+          <input type="number" maxlength="20" name="hours" ng-model="deals.percentage" ng-required="true"/>
+        </md-input-container>
+                      
                       
                  </div>
                  

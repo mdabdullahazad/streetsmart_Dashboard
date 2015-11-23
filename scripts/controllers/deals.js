@@ -6,7 +6,7 @@
  * Controller of the tourismApp
  */
 angular.module('tourismApp')
-  .controller('dealsCtrl', function($scope, $http,$httpParamSerializer, $httpParamSerializerJQLike, $rootScope, S3Uploader, appService, constants, $timeout , $mdDialog,$interval,$location, $anchorScroll,$filter) {
+  .controller('dealsCtrl', function($scope , $http,$httpParamSerializer, $httpParamSerializerJQLike, $rootScope, S3Uploader, appService, constants, $timeout , $mdDialog,$interval,$location, $anchorScroll,$filter,$window) {
     
     'use strict';
     
@@ -23,37 +23,187 @@ angular.module('tourismApp')
         "brand": "",
         "product": "",
         "price": "",
+        "percentage": ""
       };
     
-    
-   // $scope.getCategory = function(){
-        var getCategoryrUrl = "http://54.169.81.215/streetsmartadmin4/shopping/categorylist";
-        var getCategoryrUrlSuccess = function(data) {
-        $scope.category = data;
-        };
-        appService.getData(getCategoryrUrl).then(getCategoryrUrlSuccess, $scope.printServiceError);
-   // };
-    
-    
-    $scope.displaysubcategory = function(){
-        var getCategoryrUrl = "http://54.169.81.215/streetsmartadmin4/shopping/displaysubcategory/";
-            getCategoryrUrl = getCategoryrUrl + $scope.deals.category;
-        var getCategoryrUrlSuccess = function(data) {
-        $scope.subCategory = data.Subcategory;
-        };
-        appService.getData(getCategoryrUrl).then(getCategoryrUrlSuccess, $scope.printServiceError);
+    $scope.dealLocation = {
+         "cityname": "",
+         "cityid": "",
+         "address": "",
+         "mallname": "",
+         "mallid": "",
+         "geonotify": "",
+         "pushnotify": "",
+         "emailnotify": "",
+         "smsnotify": "",
+         "areaname": "",
+         "areaid": "",
+         "retailerlogo": ""
     };
+    
+    $scope.latLong = {
+             "latitude" : "",
+             "longitude" :  ""
+    };
+    
+    $rootScope.retailerlogo = "";
+    
+    $scope.combyretailist = [];
+    
+          var retaileridd = $window.localStorage && $window.localStorage.getItem('retaileridd');
+          var logstatusval = $window.localStorage && $window.localStorage.getItem('logstatusid');
+          var username = $window.localStorage && $window.localStorage.getItem('username');
+    
+          if(logstatusval == 1)
+		  {
+			  $scope.retaileriddeall = $window.localStorage && $window.localStorage.getItem('retaileridd');
+              
+              
+              
+               var dealpackagerUrl = "http://54.169.81.215/streetsmartadmin4/shopping/dealpackage1/";
+                   dealpackagerUrl = dealpackagerUrl + $scope.retaileriddeall + "/" + logstatusval;
+              
+               var dealpackagerUrlSuccess = function(data) {
+                                 //$scope.dealLocation = data;
+                   
+                                 $scope.dealLocation.geonotify = data[0].geonotify;
+								 $scope.dealLocation.pushnotify = data[0].pushnotify;
+								 $scope.dealLocation.emailnotify = data[0].emailnotify;
+								 $scope.dealLocation.smsnotify = data[0].smsnotify;
+								 $scope.dealLocation.cityname = data[0].cityname;
+								 $scope.dealLocation.cityid  = data[0].cityid;
+								 $scope.dealLocation.mallname = data[0].mallname;
+								 $scope.dealLocation.mallid = data[0].mallid;
+								 $scope.dealLocation.address = data[0].address;
+								 $scope.dealLocation.retailerlogo = data[0].retailerlogo;
+								 $scope.dealLocation.areaname = data[0].areaname;
+								 $scope.dealLocation.areaid = data[0].areaid;
+                   
+                                    $rootScope.retailerlogo = data[0].retailerlogo;
+                                    console.log(data[0].retailerlogo);
+                                    console.log($rootScope.retailerlogo);
+                   
+                               $scope.$emit('logo', { message: data[0].retailerlogo });
+                };
+              
+              appService.getData(dealpackagerUrl).then(dealpackagerUrlSuccess, $scope.printServiceError);
+   
+              
+              
+		  } 
+         
+         else if(logstatusval == 2)
+         {
+              
+                $scope.retaileriddeall = $window.localStorage && $window.localStorage.getItem('retaileridd');
+              
+                var displaycompanyretailerlistUrl = "http://54.169.81.215/streetsmartadmin4/shopping/displaycompanyretailerlist1";
+   
+                $http({
+                        method: 'POST',
+                        url: displaycompanyretailerlistUrl,
+                        data: $httpParamSerializerJQLike({
+                        "company_id" : $scope.retaileriddeall
+                    }),
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+                    }}).then(function(result) {
+                        $rootScope.showAlert(result.data.result.message, constants.alertTypes.notification);
+                    }, function(error) {
+                        $rootScope.showAlert(error.data.message, constants.alertTypes.warning);
+                        });
+
+                        $event.preventDefault();
+          } 
+          else
+          {
+                $rootScope.showAlert("Something Went Wrong", constants.alertTypes.warning);
+          }
+    
+    
+        	
+		/**** Category Data List ****/
+    
+         var getCategoryrUrl = "http://54.169.81.215/streetsmartadmin4/shopping/getretailercategory/";
+         getCategoryrUrl = getCategoryrUrl + $scope.retaileriddeall;
+         var getCategoryrUrlSuccess = function(data) {
+            $scope.category = data;
+         };
+         appService.getData(getCategoryrUrl).then(getCategoryrUrlSuccess, $scope.printServiceError);
+   
+    
+         var latLongUrl = "http://54.169.81.215/streetsmartadmin4/shopping/dealpackage2/";
+             latLongUrl = latLongUrl + retaileridd + "/" + logstatusval;
+         var latLongUrlSuccess = function(data) {
+             $scope.latLong.latitude = data[0].latitude;
+             $scope.latLong.longitude = data[0].longitude;
+         };
+         appService.getData(latLongUrl).then(latLongUrlSuccess, $scope.printServiceError);
+    
+    
+    
+    
+    
+    
+    
+   
+//        var getCategoryrUrl = "http://54.169.81.215/streetsmartadmin4/shopping/categorylist";
+//        var getCategoryrUrlSuccess = function(data) {
+//        $scope.category = data;
+//        };
+//        appService.getData(getCategoryrUrl).then(getCategoryrUrlSuccess, $scope.printServiceError);
+//   
+//    
+    
+   
+   /*  Display Sub Category  */ 
+     $scope.displaysubcategory = function($event) {
+       
+        var displaysubcategoryUrl = "http://54.169.81.215/streetsmartadmin4/shopping/subcategoryretailer";
+   
+        $http({
+            method: 'POST',
+            url: displaysubcategoryUrl,
+            data: $httpParamSerializerJQLike({
+                "retailerid" : $scope.retaileriddeall,
+                "categoryid" : $scope.deals.category
+    }),
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }}).then(function(result) {
+            //$rootScope.showAlert(result.data.result.message, constants.alertTypes.notification);
+           // console.log(result);
+            $scope.subCategory = result.data;
+            //$scope.getAllDriver();
+       }, function(error) {
+           $rootScope.showAlert("error", constants.alertTypes.warning);
+       });
+
+      //$event.preventDefault();
+         
+    };
+    
+    
+//    $scope.displaysubcategory = function(){
+//        var getCategoryrUrl = "http://54.169.81.215/streetsmartadmin4/shopping/displaysubcategory/";
+//            getCategoryrUrl = getCategoryrUrl + $scope.deals.category;
+//        var getCategoryrUrlSuccess = function(data) {
+//        $scope.subCategory = data.Subcategory;
+//        };
+//        appService.getData(getCategoryrUrl).then(getCategoryrUrlSuccess, $scope.printServiceError);
+//    };
    
     
     
      $scope.getBrands = function($event) {
        
-        var getSubCategoryrUrl = "http://54.169.81.215/streetsmartadmin4/shopping/getbrand";
+        var getBrandsUrl = "http://54.169.81.215/streetsmartadmin4/shopping/getretailerbrand";
    
         $http({
             method: 'POST',
-            url: getSubCategoryrUrl,
+            url: getBrandsUrl,
             data: $httpParamSerializerJQLike({
+                "retailerid" : $scope.retaileriddeall,
                 "subcat_id" : $scope.deals.subcategory
     }),
     headers: {
@@ -67,63 +217,112 @@ angular.module('tourismApp')
            $rootScope.showAlert("error", constants.alertTypes.warning);
        });
 
-      $event.preventDefault();
+      //$event.preventDefault();
          
     };
     
    
     $scope.getproduct = function($event) {
        
-        var getBrandUrl = "http://54.169.81.215/streetsmartadmin4/shopping/getproduct";
+        var getproductUrl = "http://54.169.81.215/streetsmartadmin4/shopping/getretailerproduct";
    
         $http({
             method: 'POST',
-            url: getBrandUrl,
+            url: getproductUrl,
             data: $httpParamSerializerJQLike({
+                "retailerid" : $scope.retaileriddeall,
                 "brandid" : $scope.deals.brand
     }),
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     }}).then(function(result) {
-            //$rootScope.showAlert(result.data.result.message, constants.alertTypes.notification);
-           // console.log(result);
             $scope.product = result.data;
-            //$scope.getAllDriver();
        }, function(error) {
            $rootScope.showAlert("error", constants.alertTypes.warning);
        });
 
-      $event.preventDefault();
+      //$event.preventDefault();
          
     };
     
     
-     $scope.addCategory = function($event) {
+     $scope.addDeals = function($event) {
         
-          var retaileridd = $window.localStorage && $window.localStorage.getItem('retaileridd');
-          var type = $window.localStorage && $window.localStorage.getItem('usertype');
-          var type = $window.localStorage && $window.localStorage.getItem('usertype');
-         
+//          var retaileridd = $window.localStorage && $window.localStorage.getItem('retaileridd');
+//          var type = $window.localStorage && $window.localStorage.getItem('usertype');
+//          var type = $window.localStorage && $window.localStorage.getItem('usertype');
+//         
          console.log("ADDED");
        // alert($scope.bookDriver.DriverEmailId);
-        var addCategoryUrl = "http://54.169.81.215/streetsmartadmin4/shopping/retailercategory1";
+        var addDealsUrl = "http://54.169.81.215/streetsmartadmin4/shopping/deal3";
    
         $http({
             method: 'POST',
-            url: addCategoryUrl,
+            url: addDealsUrl,
             data: $httpParamSerializerJQLike({
                 "retailerid" : localStorage.getItem('retaileridd'),
-                "category" : $scope.categoryList.category,
-                "subcategory" : $scope.categoryList.subcategory,
-                "brand" : $scope.categoryList.brand,
-                "product" : $scope.categoryList.product,
-                "service" : 0,
-                "companyid" : $scope.categoryList.company
+                "campaignname" : $scope.deals.campaignName,
+                "sdate" : $scope.deals.startDate,
+                "edate" : $scope.deals.endDate,
+                "category_id" : $scope.deals.category,
+                "subcategory_id" : $scope.deals.subcategory,
+                "brand_id" : $scope.deals.brand,
+                "product_id" : $scope.deals.product,
+                "service_id" : 0,
+                "offername" : "offer name",
+                "promotext" : "promo text",
+                "offerimage" : $scope.sliderImages[0].destUrl,
+                "offerthumbnails" : $scope.thumbnail.destUrl,
+                "price" : $scope.deals.price,
+                "percentage" : $scope.deals.percentage,
+                "dealtype" : $scope.deals.dealType,
+                "dealdescription" : $scope.deals.dealDescription,
+                "creditpoint" : 0,
+                "tandc" : 1,
+                "location" : $scope.dealLocation.cityid,
+                "address" : $scope.dealLocation.address,
+                "mall_id" : $scope.dealLocation.mallid,
+                "keywords" : "keywords",
+                "gender" : "both",
+                "agefrom" : 0,
+                "ageto" : 100,
+                "occupation_id" : 9,
+                "geofence" : $scope.dealLocation.geonotify,
+                "push" : $scope.dealLocation.pushnotify,
+                "emailnotify" : $scope.dealLocation.emailnotify,
+                "sms" : $scope.dealLocation.smsnotify,
+                "emi" : 0,
+                "cashod" : 0,
+                "creditcard" : 0,
+                "refund" : 0,
+                "noexchange" : 0,
+                "timming" : "9 Am to 9 Pm",
+                "area_id" : $scope.dealLocation.areaid,
+                "retailerlogo" : $scope.dealLocation.retailerlogo,
+                "bankid" : 0,
+                "cardid" : 0,
+                "privilageid" : 0,
+                "cardpromotext" : 0,
+                "cardcondition" : 1,
+                "retailername" : username,
+                "latitude" : $scope.latLong.latitude,
+                "longitude" : $scope.latLong.longitude
     }),
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     }}).then(function(result) {
-            $rootScope.showAlert(result.data.result.message, constants.alertTypes.notification);
+            $rootScope.showAlert(result.data[0].Deal, constants.alertTypes.notification);
+            
+             $scope.deals.campaignName = "",
+             $scope.deals.startDate = "",
+             $scope.deals.endDate = "",
+             $scope.deals.category = "",
+             $scope.deals.subcategory = "",
+             $scope.deals.brand = "",
+             $scope.deals.product = "",
+             $scope.deals.percentage = "",
+             $scope.deals.dealType = "",
+             $scope.deals.dealDescription = ""
             //$scope.getAllDriver();
        }, function(error) {
            $rootScope.showAlert(error.data.message, constants.alertTypes.warning);
@@ -131,12 +330,6 @@ angular.module('tourismApp')
 
       $event.preventDefault();
          
-         
-                $scope.categoryList.company = "";
-                $scope.categoryList.category = "";
-                $scope.categoryList.subcategory = "";
-                $scope.categoryList.brand = "";
-                $scope.categoryList.product = "";
                 
     };
     
@@ -370,7 +563,6 @@ angular.module('tourismApp')
     
     $scope.bookDriver = {};
     $scope.paginationBar = true; 
-    //$scope.users = ['Fabio', 'Leonardo', 'Thomas', 'Gabriele', 'Fabrizio'];
     $scope.users = [{"id":"1","name":"Fabio"},{"id":"2","name":"Leonardo"}];
     
     /* get all driver */

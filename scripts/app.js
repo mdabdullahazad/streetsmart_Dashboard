@@ -38,10 +38,15 @@ angular
         templateUrl: "views/dashboard.html",
         controller: 'DashboardCtrl'
       })
-	  .state('createAccount', {
-        url: "/createAccount",
-        templateUrl: "views/createAccount.html",
-        controller: 'createAccountCtrl'
+	  .state('registration', {
+        url: "/registerRetailer",
+        templateUrl: "views/register.html",
+        controller: 'registerRetailerCtrl'
+      })
+      .state('verify', {
+        url: "/verify",
+        templateUrl: "views/verify.html",
+        controller: 'verifyCtrl'
       })
   })
   .config(function($mdThemingProvider, $httpProvider) {

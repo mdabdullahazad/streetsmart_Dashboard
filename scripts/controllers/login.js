@@ -16,6 +16,9 @@ angular.module('tourismApp')
     var username = $scope.credentials_username;
     var pass = $scope.credentials_password;
     
+    $scope.registration = function(){
+        $state.go("registration");
+    };
     
     $scope.login = function($event) {
        
